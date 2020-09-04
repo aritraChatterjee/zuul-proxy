@@ -1,0 +1,12 @@
+[
+  {
+    "name": "luke skywalker",
+    "email": "luke.skywalker@starwars.com",
+    "role": "admin"
+  },
+  {
+    "name": "darth vader",
+    "email": "darth.vader@starwars.com",
+    "role": "user"
+  }
+]
