@@ -1,5 +1,6 @@
 package edu.aritra.zuulproxy.login;
 
+
 public class User {
 
     private String name;

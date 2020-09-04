@@ -2,7 +2,7 @@ package edu.aritra.zuulproxy.login;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
@@ -34,9 +34,12 @@ public class LoginManager {
 
     @PostConstruct
     private void loadUsers() throws IOException {
-        File usersFile = new ClassPathResource("data/employees.dat").getFile();
+        File usersFile = new ClassPathResource("users.json").getFile();
         ObjectMapper mapper = new ObjectMapper();
-        users = Collections.singletonList(mapper.readValue(usersFile, User.class));
+        users = Arrays.asList(mapper.readValue(usersFile, User[].class));
     }
 
+    List<User> getUsers() {
+        return users;
+    }
 }
