@@ -1,23 +1,29 @@
 package edu.aritra.zuulproxy.filter;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import edu.aritra.zuulproxy.login.LoginManager;
 import edu.aritra.zuulproxy.login.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Component
+
 public class AddHeadersFilter extends ZuulFilter {
-
-    @Autowired
+    private static final Logger logger = LoggerFactory.getLogger(AddHeadersFilter.class);
     LoginManager loginManager;
 
+    public AddHeadersFilter(LoginManager loginManager) {
+        this.loginManager = loginManager;
+    }
+
+    @Override
     public Object run() throws ZuulException {
+        logger.info("in AddHeadersFilter");
 
         if (loginManager.getLoggedinUser() != null) {
+            logger.info("existing user found, adding authorization headers");
+
             User loggedinUser = loginManager.getLoggedinUser();
             RequestContext ctx = RequestContext.getCurrentContext();
             ctx.addZuulRequestHeader("User-Name", loggedinUser.getName());
@@ -28,15 +34,19 @@ public class AddHeadersFilter extends ZuulFilter {
         return null;
     }
 
-    public String filterType() {
-        return null;
-    }
-
-    public int filterOrder() {
-        return 0;
-    }
-
+    @Override
     public boolean shouldFilter() {
-        return false;
+        return true;
+    }
+
+
+    @Override
+    public String filterType() {
+        return "pre";
+    }
+
+    @Override
+    public int filterOrder() {
+        return 1;
     }
 }
