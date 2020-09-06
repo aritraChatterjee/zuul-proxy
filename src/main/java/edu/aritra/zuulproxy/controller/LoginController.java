@@ -24,7 +24,18 @@ public class LoginController {
         if (loginManager.getLoggedinUser() != null) {
             return new ResponseEntity<>(loginManager.getLoggedinUser(), HttpStatus.ACCEPTED);
         } else {
-            return new ResponseEntity<>(new User(), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @GetMapping(path = "/logout")
+    public ResponseEntity<String> logout() {
+        loginManager.logout();
+
+        if (loginManager.getLoggedinUser() == null) {
+            return new ResponseEntity<>("logout success", HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
