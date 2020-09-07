@@ -2,6 +2,9 @@ server:
   port: 9001
 zuul:
   routes:
-    v1:
+    api:
       path: /v1/**
       url: http://localhost:9006/v1
+    front-end:
+      path: /app/**
+      url: http://localhost:3000/app/
